@@ -16,8 +16,9 @@ export class AuthService {
 
   public async register(body: RegisterDto): Promise<User | never> {
     const { name, email, password }: RegisterDto = body;
-    let user: User = await this.repository.findOne({ where: { email } });
 
+    // gaat eerst checken of de de email al bekend is in de database zo ja kan de gebruiker zich niet registreren.
+    let user: User = await this.repository.findOne({ where: { email } });
     if (user) {
       throw new HttpException('Conflict', HttpStatus.CONFLICT);
     }

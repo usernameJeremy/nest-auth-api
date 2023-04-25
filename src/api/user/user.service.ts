@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Request } from 'express';
@@ -19,11 +19,19 @@ export class UserService {
   }
 
   public async changeEmail(body: ChangeEmail, req: Request): Promise<User>{
-    const user: User = <User>req.user;
+    const email = body.email
+    
+    let user: User = await this.repository.findOne({ where: { email } });
+    
+    if(user && email){
+    if (user.email === email) {
+      throw new HttpException('Conflict', HttpStatus.CONFLICT);
+    }
+  }
+    const newuser: User = <User>req.user;
+    newuser.email = body.email;
 
-    user.email = body.email;
-
-    return this.repository.save(user);
+    return this.repository.save(newuser);
   }
 
 }
