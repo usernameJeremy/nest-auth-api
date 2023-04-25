@@ -1,5 +1,6 @@
 import { Exclude } from 'class-transformer';
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn,OneToMany } from 'typeorm';
+import { Todo } from '../todo/todo.entity';
 
 @Entity()
 export class User extends BaseEntity {
@@ -15,9 +16,15 @@ export class User extends BaseEntity {
   @Column({ type: 'varchar' })
   public password!: string;
 
+  
   @Column({ type: 'varchar', nullable: true })
   public name: string | null;
 
   @Column({ type: 'timestamp', nullable: true, default: null })
   public lastLoginAt: Date | null;
+
+ // eager zorgt ervoor dat de relatie automatisch tezamen met hoofdobject word geladen. { eager: true }
+  @OneToMany(type => Todo, todo => todo.user)
+  public todo: Todo[]
+
 }
