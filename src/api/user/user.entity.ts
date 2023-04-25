@@ -9,7 +9,7 @@ export class User extends BaseEntity {
   @Column({ type: 'varchar' })
   public email!: string;
 
-  //we gaan deze data verwijderen van onze responsedata
+  //we gaan deze data niet mee sturen met onze responsedata
   @Exclude()
   @Column({ type: 'varchar' })
   public password!: string;
