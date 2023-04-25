@@ -10,6 +10,7 @@ export class User extends BaseEntity {
   public email!: string;
 
   //we gaan deze data niet mee sturen met onze responsedata
+  //uitroepteken achter password zorgt er voor dat deze waarde nooit null mag zijn
   @Exclude()
   @Column({ type: 'varchar' })
   public password!: string;
