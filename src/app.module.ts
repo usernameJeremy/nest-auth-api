@@ -8,6 +8,8 @@ import { TypeOrmConfigService } from './shared/typeorm/typeorm.service';
 import { ApiModule } from './api/api.module';
 import { TodoModule } from './api/todo/todo.module';
 
+
+
 const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
 
 @Module({
@@ -15,9 +17,10 @@ const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
     ConfigModule.forRoot({ envFilePath, isGlobal: true }),
     TypeOrmModule.forRootAsync({ useClass: TypeOrmConfigService }),
     ApiModule,
-    TodoModule
+    TodoModule,
+    
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, ],
 })
 export class AppModule {}

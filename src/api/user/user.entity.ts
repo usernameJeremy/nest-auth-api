@@ -1,6 +1,10 @@
 import { Exclude } from 'class-transformer';
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn,OneToMany } from 'typeorm';
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn,OneToMany, Admin } from 'typeorm';
 import { Todo } from '../todo/todo.entity';
+import { Role } from '../enum/role.enum';
+
+
+
 
 @Entity()
 export class User extends BaseEntity {
@@ -22,6 +26,14 @@ export class User extends BaseEntity {
 
   @Column({ type: 'timestamp', nullable: true, default: null })
   public lastLoginAt: Date | null;
+
+ 
+  @Column({
+    type: 'enum',
+    enum: Role,
+    default: Role.USER,
+  })
+  roles: Role;
 
  // eager zorgt ervoor dat de relatie automatisch tezamen met hoofdobject word geladen. { eager: true }
   @OneToMany(type => Todo, todo => todo.user)
