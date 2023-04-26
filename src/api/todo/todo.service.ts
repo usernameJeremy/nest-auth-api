@@ -1,65 +1,98 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "../user/user.entity";
 import { TodoDto } from "./todo.dto";
 import { Todo } from "./todo.entity";
-import { TodoPayload } from "./todopayload.interface";
-import { TodoRepository } from "./todo.repository";
+import { Repository } from "typeorm";
 
 
 
 @Injectable()
 export class TodoService {
     constructor(
-        
-        @InjectRepository(TodoRepository)
-        private todoRepo : TodoRepository
-    ) {}
+        @InjectRepository(Todo)
+        private repository: Repository<Todo>,
 
-    async getAllTodo(user: User): Promise<TodoPayload[]>{
-        return this.todoRepo.getAllTodo(user)
-    }
+
+    ) { }
+
+
 
     async createTodo(
         todoDto: TodoDto,
         user: User
-    ): Promise<TodoPayload> {
-        return this.todoRepo.createTodo(todoDto, user)
-    }
-
-    async getTodoById(
-        id: number,
-        user: User
     ): Promise<Todo> {
-        const todo = await this.todoRepo.findOne({ where: { id, userId: user.id } })
+        const { title, description } = todoDto
 
-        if (!todo) {
-            throw new NotFoundException(`This ${id} is not found`);
-        }
+        const todo = new Todo()
+
+        todo.title = title
+        todo.description = description
+        todo.user = user
+
+        await todo.save()
+
+        delete todo.user
         return todo
     }
 
-    async updateTodoById(id: number, todoDto: TodoDto, user: User): Promise<TodoPayload> {
-        const todo = await this.getTodoById(id, user)
-        todo.title = todoDto.title
-        todo.description = todoDto.description
-
-        await todo.save()
-        return {
-            id: todo.id,
-            title: todo.title,
-            description: todo.description,
-            createdDate: todo.createdDate,
-            updatedDate: todo.updatedDate
-        }
+    async getTodoListsByUser(
+        user: User
+    ): Promise<Todo[]> {
+        const todos = await this.repository.find({
+            where: {
+                userId: user.id,
+            },
+        });
+        return todos;
     }
 
-    async deleteTodoById(id: number, user: User): Promise<{ message: string }> {
-        const todo = await this.todoRepo.delete({ id, userId: user.id })
+    async getTodoListsById(
+        user: User
+      ): Promise<Todo[]> {
+        const todoList = await this.repository.find({ where: { userId: user.id } });
+        return todoList;
+      }
+      
 
-        if (todo.affected === 0) {
-            throw new NotFoundException(`This ${id} is not found`)
+
+    async updateTodoList(
+        id: number,
+        tododto: TodoDto,
+        user : User
+    ): Promise<Todo> {
+        const todoLists = await this.getTodoListsById(user);
+        const todoList = todoLists.find(todo => todo.id === id);
+        if (!todoList) {
+            throw new NotFoundException(`Todo list with id ${id} not found`);
         }
-        return { message: 'Deleted successfully !' }
+        if (todoList.userId !== user.id) {
+            throw new UnauthorizedException('jij bent helemaal niet geauthoriseert om dit aan te passen lulletje rozenwater');
+          }
+        if (tododto.title) {
+            todoList.title = tododto.title;
+        }
+        if (tododto.description) {
+            todoList.description = tododto.description;
+        }
+        await this.repository.save(todoList);
+        return todoList;
     }
+
+    async deleteTodoList(id: number, user: User): Promise<void> {
+        const todoLists = await this.getTodoListsById(user);
+        const todoList = todoLists.find(todo => todo.id === id);
+        if (!todoList) {
+          throw new NotFoundException(`Todo list with id ${id} not found`);
+        }
+        await this.repository.delete(id);
+        
+      }
+
+
 }
+
+    
+    
+    //todo lijsten verwijderen
+
