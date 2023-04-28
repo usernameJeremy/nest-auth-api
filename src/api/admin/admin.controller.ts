@@ -8,12 +8,13 @@ import { JwtAuthGuard } from "../user/auth/auth.guard";
 
 
 
-@Controller('admin')
+@Controller()
 @UseGuards(JwtAuthGuard)
 export class AdminController {
     constructor(
+        
         private adminService: AdminService,
-        private roles: Role
+        
     ) { }
 
     @Put('users/:id/roles')
@@ -21,8 +22,8 @@ export class AdminController {
         @GetUser() user: User,
         @Body() roleDto: RoleDto,
     ): Promise<User> {
-        const { id, roles } = roleDto;
-        const userRoles = await this.adminService.updateUserRoles(id, roles[roles], user);
+        const { roles  } = roleDto;
+        const userRoles = await this.adminService.updateUserRoles( roles , user);
         return userRoles;
     }
 }

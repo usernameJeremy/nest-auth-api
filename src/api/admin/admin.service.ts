@@ -12,11 +12,10 @@ export class AdminService {
         private userRepository: Repository<User>,
     ){}
 
-    async updateUserRoles(id: number, roles: Role[], user: User): Promise<User> {
-        const userToUpdate = await this.userRepository.findOne({where: { id }});
-        userToUpdate.roles = roles[Role.USER, Role.ADMIN];
-        await this.userRepository.save(userToUpdate);
-        return userToUpdate;
+    async updateUserRoles(roles: Role[], user: User): Promise<User> {
+        user.roles = roles;
+        const updatedUser = await this.userRepository.save(user);
+        return updatedUser;
       }
       
 

@@ -33,7 +33,7 @@ export class User extends BaseEntity {
     enum: Role,
     default: Role.USER,
   })
-  roles: Role;
+  roles: Role[];
 
  // eager zorgt ervoor dat de relatie automatisch tezamen met hoofdobject word geladen. { eager: true }
   @OneToMany(type => Todo, todo => todo.user)

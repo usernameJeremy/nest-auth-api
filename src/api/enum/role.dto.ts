@@ -6,6 +6,6 @@ export class RoleDto {
 
     id: number;
 
-    @IsEnum(Role)
-    roles: Role;
+    @IsEnum(Role, { each: true })
+    roles: Role[];
 }
