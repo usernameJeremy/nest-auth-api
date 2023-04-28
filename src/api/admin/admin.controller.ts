@@ -12,7 +12,7 @@ import { UserInfoDto } from "../user/user.dto";
 
 
 
-@Controller()
+@Controller('admin')
 @UseGuards(JwtAuthGuard, AdminGuard)
 export class AdminController {
   constructor(

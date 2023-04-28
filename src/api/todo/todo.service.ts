@@ -47,6 +47,20 @@ export class TodoService {
         return todos;
     }
 
+    async getTodoById( user: User, todoId : number,): Promise<Todo>{
+        const todoListsFromUser = await this.repository.findOne({
+            where: {
+                userId: user.id,
+                id: todoId
+            },
+        })
+        console.log(todoListsFromUser);
+        if(!todoListsFromUser){
+            throw new NotFoundException("geen todo lijstjes gevonden")
+        }
+       return todoListsFromUser;
+    }
+
     async getTodoListsById(
         user: User
       ): Promise<Todo[]> {

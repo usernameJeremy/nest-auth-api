@@ -1,4 +1,4 @@
-import { ClassSerializerInterceptor, Controller, Req, UseGuards, UseInterceptors, Put, Body, Inject } from '@nestjs/common';
+import { ClassSerializerInterceptor, Controller, Req, UseGuards, UseInterceptors, Body, Inject, Patch } from '@nestjs/common';
 import { Request } from 'express';
 import { JwtAuthGuard } from '@/api/user/auth/auth.guard';
 import { ChangeEmail, UpdateNameDto } from './user.dto';
@@ -10,17 +10,19 @@ export class UserController {
   @Inject(UserService)
   private readonly service: UserService;
 
-  @Put('name')
+  @Patch('name')
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   private updateName(@Body() body: UpdateNameDto, @Req() req: Request): Promise<User> {
     return this.service.updateName(body, req);
   }
 
-  @Put('email')
+  @Patch('email')
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(ClassSerializerInterceptor)
   private updateEmail(@Body() body: ChangeEmail, @Req() req: Request): Promise<User>{
     return this.service.changeEmail(body, req);
   }
+
+  //changepassword
 }
