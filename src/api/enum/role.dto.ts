@@ -9,3 +9,8 @@ export class RoleDto {
     @IsEnum(Role, { each: true })
     roles: Role[];
 }
+
+export class RemoveRoleDto {
+    @IsEnum(Role)
+    role: Role;
+  }

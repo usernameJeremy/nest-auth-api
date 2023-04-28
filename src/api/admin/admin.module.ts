@@ -4,6 +4,7 @@ import { User } from "../user/user.entity";
 import { AdminService } from "./admin.service";
 
 import { AdminController } from "./admin.controller";
+import { AdminGuard } from "./admin.guard";
 
 
 @Module({
@@ -14,6 +15,7 @@ import { AdminController } from "./admin.controller";
     controllers: [AdminController],
     providers: [
         AdminService,
+        AdminGuard,
         
     ]
 })

@@ -1,5 +1,5 @@
 import { Exclude } from 'class-transformer';
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn,OneToMany, Admin } from 'typeorm';
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn,OneToMany } from 'typeorm';
 import { Todo } from '../todo/todo.entity';
 import { Role } from '../enum/role.enum';
 

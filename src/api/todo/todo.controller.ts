@@ -32,7 +32,7 @@ export class TodoController {
         return this.todoService.getTodoListsByUser(user);
     }
 
-    @Patch('todo-lists/:id')
+    @Patch(':id')
     async updateTodoList(
         @GetUser() user: User,
         @Param('id', ParseIntPipe) id: number,
@@ -41,7 +41,7 @@ export class TodoController {
         return await this.todoService.updateTodoList(id, todoDto, user);
     }
 
-    @Delete('todo-lists/:id')
+    @Delete(':id')
     async deleteTodoList(
         @GetUser() user: User,
         @Param('id', ParseIntPipe) id: number,

@@ -8,8 +8,6 @@ import { TypeOrmConfigService } from './shared/typeorm/typeorm.service';
 import { ApiModule } from './api/api.module';
 import { TodoModule } from './api/todo/todo.module';
 
-
-
 const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
 
 @Module({
@@ -23,4 +21,6 @@ const envFilePath: string = getEnvPath(`${__dirname}/common/envs`);
   controllers: [AppController],
   providers: [AppService, ],
 })
-export class AppModule {}
+export class AppModule {
+  constructor() { } 
+}
