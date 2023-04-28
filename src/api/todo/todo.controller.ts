@@ -58,14 +58,4 @@ export class TodoController {
         await this.todoService.deleteTodoList(id, user);
         return `Todo list with id ${id} successfully deleted`;
     }
-
-
-
-
-
-
- 
-    //delete lijst
-
-
 }
