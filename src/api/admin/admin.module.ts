@@ -5,11 +5,12 @@ import { AdminService } from "./admin.service";
 
 import { AdminController } from "./admin.controller";
 import { AdminGuard } from "./admin.guard";
+import { Todo } from "../todo/todo.entity";
 
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([ User ]),
+        TypeOrmModule.forFeature([ User, Todo ]),
         
     ],
     controllers: [AdminController],
