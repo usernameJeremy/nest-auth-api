@@ -106,7 +106,3 @@ export class TodoService {
 
 }
 
-    
-    
-    //todo lijsten verwijderen
-
