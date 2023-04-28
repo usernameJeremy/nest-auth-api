@@ -32,6 +32,15 @@ export class TodoController {
         return this.todoService.getTodoListsByUser(user);
     }
 
+    
+    @Get(':id')
+    async getTodoById(
+        @GetUser() user : User,
+        @Param('id', ParseIntPipe) todoId : number,
+    ): Promise<Todo> {
+        return await this.todoService.getTodoById(user, todoId)
+    }
+
     @Patch(':id')
     async updateTodoList(
         @GetUser() user: User,
