@@ -1,12 +1,11 @@
 import { Body, Controller, Get, Delete, Param, ParseIntPipe, Patch, Post, UseGuards } from "@nestjs/common";
 import { JwtAuthGuard } from '@/api/user/auth/auth.guard';
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { GetUser } from "../user/get-user.decorator";
 
+import { GetUser } from "../user/get-user.decorator";
 import { User } from "../user/user.entity";
 import { TodoDto } from "./todo.dto";
 import { Todo } from "./todo.entity";
-
 import { TodoService } from "./todo.service";
 
 @ApiTags('Todo')
