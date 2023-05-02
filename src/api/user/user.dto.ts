@@ -24,4 +24,6 @@ export class UserInfoDto {
   @IsString()
   public readonly name?: string;
 
+
 }
+

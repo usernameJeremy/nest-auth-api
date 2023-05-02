@@ -2,7 +2,7 @@ import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Request } from 'express';
-import { ChangeEmail, UpdateNameDto } from './user.dto';
+import { ChangeEmail, UpdateNameDto, UserInfoDto } from './user.dto';
 import { User } from './user.entity';
 
 @Injectable()
@@ -32,6 +32,13 @@ export class UserService {
     newuser.email = body.email;
 
     return this.repository.save(newuser);
+  }
+
+  async getUser(user: User): Promise<User>{
+      const activeUser = await this.repository.findOne({
+        where: { id : user.id}
+      })
+    return activeUser;
   }
 
 }
